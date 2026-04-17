@@ -93,9 +93,8 @@ export default function RootLayout({
 
         <Footer />
         
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
+        {/* Google Analytics (已配置你的 ID: G-CXP3E19P5V) */}
+        <GoogleAnalytics gaId="G-CXP3E19P5V" />
       </body>
     </html>
   );
