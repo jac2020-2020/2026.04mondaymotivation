@@ -1,4 +1,4 @@
-export function JsonLd({ data }: { data: any }) {
+export function JsonLd({ data }: { data: unknown }) {
   return (
     <script
       type="application/ld+json"

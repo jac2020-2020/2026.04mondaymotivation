@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Dancing_Script, Oswald, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -10,6 +10,22 @@ const inter = Inter({
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
+  subsets: ["latin"],
+});
+
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing",
+  subsets: ["latin"],
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -58,10 +74,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-gray-50 text-gray-900`}
+        className={`${inter.variable} ${playfair.variable} ${dancingScript.variable} ${oswald.variable} ${spaceMono.variable} font-sans antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
         <Header />
-        {children}
+        
+        {/* Main Content */}
+        <div className="pb-24 md:pb-0">
+          {children}
+        </div>
       </body>
     </html>
   );

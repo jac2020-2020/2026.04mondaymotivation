@@ -115,7 +115,7 @@ export default async function QuotesCategoryPage({ params }: Props) {
           <div key={q.id} className="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
             <QuoteIcon className="absolute top-6 left-6 w-8 h-8 text-gray-100 -z-10" />
             <p className="text-xl md:text-2xl font-playfair text-gray-900 mb-4 leading-relaxed z-10 relative">
-              "{q.text}"
+              &ldquo;{q.text}&rdquo;
             </p>
             <p className="text-xs uppercase tracking-widest text-gray-400 font-medium">
               — {q.author}

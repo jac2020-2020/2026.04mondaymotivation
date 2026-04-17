@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Category, getQuotesByCategory, getRandomQuoteByCategory } from "@/lib/data";
+import { Category, getRandomQuoteByCategory } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import PosterCanvas from "@/components/PosterCanvas";
 
@@ -79,7 +79,6 @@ export default async function ImagesCategoryPage({ params }: Props) {
   }
 
   const initialQuote = getRandomQuoteByCategory(category);
-  const allQuotes = getQuotesByCategory(category);
 
   const softwareSchema = {
     "@context": "https://schema.org",
@@ -99,7 +98,7 @@ export default async function ImagesCategoryPage({ params }: Props) {
       <JsonLd data={softwareSchema} />
 
       <header className="flex flex-col items-center mb-12 w-full">
-        <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-4 text-center capitalize text-gray-900 tracking-tight leading-tight">
+        <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-4 text-center capitalize text-gray-900 tracking-tight leading-tight" style={{ fontFamily: "Times New Roman, Times, serif" }}>
           {category} Images & Posters
         </h1>
         <p className="text-gray-500 font-sans text-sm md:text-base max-w-lg text-center leading-relaxed">

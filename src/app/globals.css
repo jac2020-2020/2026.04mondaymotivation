@@ -2,19 +2,65 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #f9fafb; /* gray-50 */
-  --foreground: #111827; /* gray-900 */
+  /* Soft, natural, calming color palette */
+  --background: #fdfbf7; /* Oatmeal / Warm Off-white */
+  --foreground: #2d3748; /* Soft Slate Gray instead of harsh black */
+  
+  /* Brand colors: Sage Green / Earthy tones */
+  --brand-primary: #8b9d83; /* Soft Sage Green */
+  --brand-primary-hover: #7a8c73;
+  --brand-secondary: #e6e2d6; /* Warm Sand */
+  --brand-accent: #d4a373; /* Muted Terracotta for subtle pop */
+  
+  /* UI elements */
+  --surface-1: #ffffff;
+  --surface-2: #f4f1e9;
+  --border-light: #eae5d9;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand-primary);
+  --color-brand-hover: var(--brand-primary-hover);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-border-light: var(--border-light);
+  
   --font-sans: var(--font-inter);
   --font-playfair: var(--font-playfair);
+  --font-dancing: var(--font-dancing);
+  --font-oswald: var(--font-oswald);
+  --font-mono: var(--font-mono);
+
+  --animate-shimmer: shimmer 2s infinite linear;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Override default scrollbar for a softer look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
 }
 

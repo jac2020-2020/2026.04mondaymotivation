@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Globe, ChevronDown } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Header() {
   const [isImagesOpen, setIsImagesOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Header() {
         {/* Left Section: Logo + Nav */}
         <div className="flex items-center gap-12 h-full">
           {/* Logo */}
-          <Link href="/" className="font-playfair font-bold text-xl tracking-tight text-gray-900">
+          <Link href="/" className="font-playfair font-bold text-xl tracking-tight text-gray-900" style={{ fontFamily: "Trebuchet MS, Helvetica, sans-serif" }}>
             MondayMotivation
           </Link>
 
