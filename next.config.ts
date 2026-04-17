@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "upgrade-insecure-requests;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://cataas.com https://picsum.photos https://image.pollinations.ai https://place.dog; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; upgrade-insecure-requests;",
           },
           {
             key: "Strict-Transport-Security",
