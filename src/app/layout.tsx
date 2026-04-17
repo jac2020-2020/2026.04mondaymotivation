@@ -34,13 +34,13 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://mondaymotivation.org'),
   title: {
-    default: "Monday Motivation - Daily Quotes & Poster Generator",
+    default: "Inspiring Monday Motivation Quotes & Poster Maker",
     template: "%s | Monday Motivation",
   },
-  description: "Global minimalist Monday Motivation resource and poster generator. Find the best Monday motivation quotes for work, gym, and success.",
-  keywords: ["monday motivation", "motivation quotes", "monday quotes", "poster generator", "monday inspiration", "motivational quotes for work", "gym motivation"],
+  description: "Energize your week with motivational quotes and custom posters! Create, download, and share inspiration instantly without signup.",
+  keywords: ["monday motivation", "motivation quotes", "monday quotes", "poster generator", "monday inspiration", "motivational quotes for work", "gym motivation", "funny memes", "image maker"],
   alternates: {
-    canonical: '/',
+    canonical: 'https://mondaymotivation.org',
   },
   openGraph: {
     title: "Monday Motivation - Daily Quotes & Poster Generator",

@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
           },
+          {
+            key: "X-Robots-Tag",
+            value: "index, follow",
+          },
         ],
       },
     ];
