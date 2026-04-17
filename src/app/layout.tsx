@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     default: "Inspiring Monday Motivation Quotes & Poster Maker",
     template: "%s | Monday Motivation",
   },
-  description: "Energize your week with motivational quotes and custom posters! Create, download, and share inspiration instantly without signup.",
-  keywords: ["monday motivation", "motivation quotes", "monday quotes", "poster generator", "monday inspiration", "motivational quotes for work", "gym motivation", "funny memes", "image maker"],
+  description: "Energize your week with the best Monday motivational quotes and custom posters! Create, download, and share daily inspiration instantly without signup.",
+  keywords: ["monday motivation", "motivation quotes", "monday quotes", "poster generator", "monday inspiration", "motivational quotes for work", "funny memes", "image maker"],
   alternates: {
     canonical: 'https://mondaymotivation.org',
   },
   openGraph: {
     title: "Monday Motivation - Daily Quotes & Poster Generator",
-    description: "Global minimalist Monday Motivation resource and poster generator.",
+    description: "Energize your week with the best Monday motivational quotes and custom posters! Create, download, and share daily inspiration instantly without signup.",
     url: "https://mondaymotivation.org",
     siteName: "Monday Motivation",
     locale: "en_US",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Monday Motivation - Daily Quotes & Poster Generator",
-    description: "Global minimalist Monday Motivation resource and poster generator.",
+    description: "Energize your week with the best Monday motivational quotes and custom posters! Create, download, and share daily inspiration instantly without signup.",
   },
   robots: {
     index: true,
