@@ -1,75 +1,67 @@
 "use client";
 
-import Link from 'next/link';
-import { Globe, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { CATEGORY_TO_IMAGES_SLUG, CATEGORY_TO_QUOTES_SLUG } from "@/lib/data";
 
 export default function Header() {
   const [isImagesOpen, setIsImagesOpen] = useState(false);
   const [isQuotesOpen, setIsQuotesOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isImagesActive = pathname.startsWith("/images");
+  const isQuotesActive = pathname.startsWith("/quotes");
 
   return (
-    <header className="w-full border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        
-        {/* Left Section: Logo + Nav */}
-        <div className="flex items-center gap-12 h-full">
-          {/* Logo */}
-          <Link href="/" className="font-playfair font-bold text-xl tracking-tight text-gray-900" style={{ fontFamily: "Trebuchet MS, Helvetica, sans-serif" }}>
-            MondayMotivation
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-sans uppercase tracking-widest text-gray-600 font-medium h-full">
-            
-            {/* Images Dropdown */}
-            <div 
-              className="relative h-full flex items-center"
-              onMouseEnter={() => setIsImagesOpen(true)}
-              onMouseLeave={() => setIsImagesOpen(false)}
+    <header className="w-full bg-[var(--background)] border-b border-border-light relative z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          
+          {/* Left: Logo & Nav */}
+          <div className="flex items-center gap-10 h-full">
+            {/* Logo */}
+            <Link 
+              href="/" 
+              className="flex items-center gap-2 text-2xl font-bold tracking-tight text-foreground"
+              style={{ fontFamily: '"Trebuchet MS", Helvetica, sans-serif' }}
             >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Images <ChevronDown className="w-3 h-3" />
-            </button>
-            {isImagesOpen && (
-              <div className="absolute top-full left-0 bg-white border border-gray-100 shadow-xl rounded-xl py-2 w-48 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                <Link href="/images/work" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Work Posters</Link>
-                <Link href="/images/gym" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Gym Posters</Link>
-                <Link href="/images/funny" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Funny Memes</Link>
-              </div>
-            )}
-          </div>
-
-          {/* Quotes Dropdown */}
-          <div 
-            className="relative h-full flex items-center"
-            onMouseEnter={() => setIsQuotesOpen(true)}
-            onMouseLeave={() => setIsQuotesOpen(false)}
-          >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Quotes <ChevronDown className="w-3 h-3" />
-            </button>
-            {isQuotesOpen && (
-              <div className="absolute top-full left-0 bg-white border border-gray-100 shadow-xl rounded-xl py-2 w-48 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                <Link href="/quotes/work" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Work Quotes</Link>
-                <Link href="/quotes/gym" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Gym Quotes</Link>
-                <Link href="/quotes/funny" className="block px-5 py-3 hover:bg-gray-50 text-gray-700 hover:text-black">Funny Quotes</Link>
-              </div>
-            )}
-          </div>
-
-            {/* Blog */}
-            <Link href="/blog" className="hover:text-black transition-colors">
-              Blog
+              <img src="/logo.png" alt="MondayMotivation Logo" className="w-8 h-8 object-contain" />
+              MondayMotivation
             </Link>
-          </nav>
-        </div>
 
-        {/* Language Switcher & Mobile Placeholder */}
-        <div className="flex items-center gap-4">
-          <button className="flex items-center gap-1 text-gray-500 hover:text-black text-xs uppercase tracking-widest font-bold transition-colors border border-transparent hover:border-gray-200 px-3 py-1.5 rounded-full">
-            <Globe className="w-3.5 h-3.5" /> EN
-          </button>
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600 h-full">
+              
+              {/* Images Dropdown */}
+              <div className="group relative h-full flex items-center">
+                <Link 
+                  href="/images" 
+                  className={`flex items-center gap-1 transition-colors ${isImagesActive ? "text-brand-primary font-bold" : "hover:text-foreground"}`}
+                >
+                  Images <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
+                </Link>
+                <div className="absolute top-[80%] left-0 bg-surface-1 border border-border-light shadow-xl rounded-xl py-2 w-48 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200">
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.work}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Motivation</Link>
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.gym}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Motivation</Link>
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.funny}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Memes</Link>
+                </div>
+              </div>
+
+              {/* Quotes Dropdown */}
+              <div className="group relative h-full flex items-center">
+                <button className={`flex items-center gap-1 transition-colors ${isQuotesActive ? "text-brand-primary font-bold" : "hover:text-foreground"}`}>
+                  Quotes <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
+                </button>
+                <div className="absolute top-[80%] left-0 bg-surface-1 border border-border-light shadow-xl rounded-xl py-2 w-48 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200">
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.work}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Quotes</Link>
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.gym}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Quotes</Link>
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.funny}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Quotes</Link>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
     </header>

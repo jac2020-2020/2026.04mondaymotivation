@@ -15,7 +15,7 @@ export default function GeneratorPage() {
   return (
     <main className="min-h-screen flex flex-col items-center pt-24 pb-32 px-4 max-w-7xl mx-auto">
       <header className="flex flex-col items-center mb-16 w-full text-center">
-        <h1 className="text-4xl md:text-5xl font-playfair font-bold mb-4 text-foreground tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground tracking-tight" style={{ fontFamily: '"Times New Roman", Times, serif' }}>
           Poster <span className="italic text-brand-primary">Generator</span>
         </h1>
         <p className="text-gray-500 font-sans text-base max-w-xl leading-relaxed">

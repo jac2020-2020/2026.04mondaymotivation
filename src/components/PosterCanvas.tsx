@@ -44,7 +44,7 @@ const RATIO_CLASSES: Record<AspectRatio, string> = {
 const CATEGORY_KEYWORDS: Record<string, string> = {
   "work": "office,business,laptop,coffee,desk",
   "gym": "fitness,workout,gym,training,sports",
-  "funny": "smile,happy,funny,comedy,pets",
+  "funny": "funny animal,silly cat,funny dog,clown,awkward,meme,monkey",
   "success": "mountain,peak,achievement,victory,sunrise",
   "all": "nature,landscape,abstract,architecture,minimal",
   "motivation": "nature,landscape,abstract,architecture,minimal"
@@ -68,7 +68,8 @@ import { ArrowRight } from "lucide-react";
 export default function PosterCanvas({ initialQuote, category = "motivation", isLandingPage = false }: PosterCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [ratio, setRatio] = useState<AspectRatio>("1:1");
+  const lastLibraryQuoteRef = useRef<Quote | null>(null);
+  const [ratio, setRatio] = useState<AspectRatio>("16:9");
   const [bgImage, setBgImage] = useState("");
   const [bgType, setBgType] = useState<BgType>("photo");
   const [photoStyle, setPhotoStyle] = useState<PhotoStyle>("cinematic");
@@ -79,13 +80,14 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
   const [fontStyle, setFontStyle] = useState<FontStyle>("serif");
   const [isGenerating, setIsGenerating] = useState(false);
   const [canShare, setCanShare] = useState(false);
+  const isCustomQuote = currentQuote.id === "custom";
 
   const generatePhotoBg = useCallback((currentCat: string) => {
     const baseKeywords = CATEGORY_KEYWORDS[currentCat] || CATEGORY_KEYWORDS["all"];
     const keywordArray = baseKeywords.split(",");
     const randomKeyword = keywordArray[Math.floor(Math.random() * keywordArray.length)];
     const cacheBuster = new Date().getTime();
-    setBgImage(`/api/bg?q=${encodeURIComponent(randomKeyword)}&w=1080&h=1080&sig=${cacheBuster}`);
+    setBgImage(`/api/bg?type=photo&q=${encodeURIComponent(randomKeyword)}&w=1080&h=1080&sig=${cacheBuster}`);
   }, []);
 
   const generateTextureBg = useCallback((style: TextureStyle) => {
@@ -93,7 +95,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
     const keywordArray = baseKeywords.split(",");
     const randomKeyword = keywordArray[Math.floor(Math.random() * keywordArray.length)];
     const cacheBuster = new Date().getTime();
-    setBgImage(`/api/bg?q=${encodeURIComponent(randomKeyword)}&w=1080&h=1080&sig=${cacheBuster}`);
+    setBgImage(`/api/bg?type=texture&style=${style}&q=${encodeURIComponent(randomKeyword)}&w=1080&h=1080&sig=${cacheBuster}`);
   }, []);
 
   const refreshBackground = useCallback(() => {
@@ -185,6 +187,33 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
     } else {
       setCurrentQuote(getRandomQuoteByCategory(internalCategory));
     }
+  };
+
+  useEffect(() => {
+    if (!isCustomQuote) {
+      lastLibraryQuoteRef.current = currentQuote;
+    }
+  }, [currentQuote, isCustomQuote]);
+
+  const switchToCustomQuote = () => {
+    const author = currentQuote.author?.trim() && currentQuote.author.trim().toLowerCase() !== "unknown"
+      ? currentQuote.author.trim()
+      : "";
+    setCurrentQuote({
+      ...currentQuote,
+      id: "custom",
+      author,
+      seo_alt: "Custom Monday motivation quote",
+    });
+  };
+
+  const resetToLibraryQuote = () => {
+    const last = lastLibraryQuoteRef.current;
+    if (last && last.id !== "custom") {
+      setCurrentQuote(last);
+      return;
+    }
+    handleRefreshQuote();
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -299,7 +328,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
     <div className={`w-full ${isLandingPage ? 'flex flex-col items-center' : 'flex flex-col lg:flex-row items-start'} gap-8 relative`}>
       {/* Immersive Blurred Background (Only on Landing Page) */}
       {isLandingPage && bgImage && (
-        <div className="absolute left-1/2 -translate-x-1/2 w-[100vw] top-[-600px] bottom-[-600px] -z-10 pointer-events-none flex justify-center">
+        <div className="absolute left-1/2 -translate-x-1/2 w-[100vw] h-[1200px] top-[-600px] -z-10 pointer-events-none flex justify-center">
           <div 
             className="absolute inset-0 max-w-[2000px] mx-auto bg-cover bg-center opacity-30 blur-2xl transition-all duration-1000"
             style={{ 
@@ -366,27 +395,67 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
 
           {/* Content */}
           <div>
-            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 block">Content</label>
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider block">Content</label>
+              {isCustomQuote ? (
+                <button
+                  onClick={resetToLibraryQuote}
+                  className="px-3 py-1.5 text-xs rounded-xl font-medium transition-all bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  title="Revert to library quote"
+                >
+                  Reset
+                </button>
+              ) : (
+                <button
+                  onClick={switchToCustomQuote}
+                  className="px-3 py-1.5 text-xs rounded-xl font-medium transition-all bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  title="Unlock editing"
+                >
+                  Edit
+                </button>
+              )}
+            </div>
             <div className="relative">
               <textarea 
                 value={currentQuote.text}
-                onChange={(e) => setCurrentQuote({ ...currentQuote, text: e.target.value })}
+                onChange={(e) => {
+                  if (!isCustomQuote) return;
+                  setCurrentQuote({ ...currentQuote, text: e.target.value, seo_alt: "Custom Monday motivation quote" });
+                }}
                 placeholder="Enter quote..."
                 rows={4}
-                className="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm font-medium rounded-xl px-4 py-3 pr-12 pb-8 outline-none focus:ring-2 focus:ring-black transition-shadow resize-none"
+                readOnly={!isCustomQuote}
+                className={`w-full border border-gray-200 text-sm font-medium rounded-xl px-4 py-3 pr-12 pb-8 outline-none transition-shadow resize-none ${isCustomQuote ? "bg-gray-50 text-gray-800 focus:ring-2 focus:ring-black" : "bg-gray-100 text-gray-600 cursor-not-allowed"}`}
               />
-              <button 
-                onClick={handleRefreshQuote}
-                className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"
-                title="Random Quote"
-              >
-                <RefreshCw className="w-4 h-4" />
-              </button>
+              {!isCustomQuote && (
+                <button 
+                  onClick={handleRefreshQuote}
+                  className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"
+                  title="Random Quote"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </button>
+              )}
               <div className="absolute bottom-3 right-4 pointer-events-none">
                 <span className={`text-[10px] font-medium ${currentQuote.text.length > 200 ? 'text-red-500' : 'text-gray-400'}`}>
                   {currentQuote.text.length} / 200 字符
                 </span>
               </div>
+            </div>
+
+            <div className="mt-3">
+              <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Author</label>
+              <input
+                type="text"
+                value={currentQuote.author?.trim().toLowerCase() === "unknown" ? "" : currentQuote.author}
+                onChange={(e) => {
+                  if (!isCustomQuote) return;
+                  setCurrentQuote({ ...currentQuote, author: e.target.value, seo_alt: "Custom Monday motivation quote" });
+                }}
+                placeholder="Optional"
+                readOnly={!isCustomQuote}
+                className={`w-full border border-gray-200 text-sm font-medium rounded-xl px-4 py-3 outline-none transition-shadow ${isCustomQuote ? "bg-gray-50 text-gray-800 focus:ring-2 focus:ring-black" : "bg-gray-100 text-gray-600 cursor-not-allowed"}`}
+              />
             </div>
           </div>
 
@@ -429,29 +498,6 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
                   className={`flex-1 py-1.5 text-xs rounded-lg font-medium transition-all ${photoStyle === "light" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-900"}`}
                 >
                   Light
-                </button>
-              </div>
-            )}
-
-            {bgType === "texture" && (
-              <div className="flex bg-gray-100 p-1 rounded-xl mb-3">
-                <button
-                  onClick={() => {
-                    setTextureStyle("material");
-                    generateTextureBg("material");
-                  }}
-                  className={`flex-1 py-1.5 text-xs rounded-lg font-medium transition-all ${textureStyle === "material" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-900"}`}
-                >
-                  Material
-                </button>
-                <button
-                  onClick={() => {
-                    setTextureStyle("minimal");
-                    generateTextureBg("minimal");
-                  }}
-                  className={`flex-1 py-1.5 text-xs rounded-lg font-medium transition-all ${textureStyle === "minimal" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-gray-900"}`}
-                >
-                  Minimal
                 </button>
               </div>
             )}
@@ -536,7 +582,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
             <button 
               onClick={handleDownload} 
               disabled={isGenerating || !isCanvasReady}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors text-sm font-bold shadow-lg shadow-black/20 disabled:opacity-50"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-brand-primary text-white rounded-xl hover:bg-brand-primary-hover transition-colors text-sm font-bold shadow-lg shadow-brand-primary/20 disabled:opacity-50"
             >
               <Download className="w-5 h-5" /> 
               {isGenerating ? "Processing..." : "Download Poster"}
@@ -567,19 +613,19 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
               <div className="flex items-center gap-1 border-r pr-4 border-gray-200">
                 <button 
                   onClick={() => setRatio("9:16")} 
-                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "9:16" ? "bg-gray-900 text-white" : "hover:bg-gray-100 text-gray-600"}`}
+                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "9:16" ? "bg-brand-primary text-white" : "hover:bg-brand-secondary text-gray-600"}`}
                 >
                   Story
                 </button>
                 <button 
                   onClick={() => setRatio("1:1")} 
-                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "1:1" ? "bg-gray-900 text-white" : "hover:bg-gray-100 text-gray-600"}`}
+                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "1:1" ? "bg-brand-primary text-white" : "hover:bg-brand-secondary text-gray-600"}`}
                 >
                   Feed
                 </button>
                 <button 
                   onClick={() => setRatio("16:9")} 
-                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "16:9" ? "bg-gray-900 text-white" : "hover:bg-gray-100 text-gray-600"}`}
+                  className={`px-4 py-2 text-sm rounded-full transition-colors ${ratio === "16:9" ? "bg-brand-primary text-white" : "hover:bg-brand-secondary text-gray-600"}`}
                 >
                   Wide
                 </button>
@@ -589,7 +635,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
                 <button 
                   onClick={handleDownload} 
                   disabled={isGenerating || !isCanvasReady}
-                  className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-2 bg-brand-primary text-white rounded-full hover:bg-brand-primary-hover transition-colors text-sm font-medium disabled:opacity-50"
                 >
                   <Download className="w-4 h-4" /> 
                   {isGenerating ? "Wait..." : "Download"}
@@ -632,7 +678,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
               }}
             >
               {/* Overlay Filter */}
-              {bgType === "photo" && photoStyle === "cinematic" && <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] backdrop-grayscale-[0.5]"></div>}
+              {bgType === "photo" && photoStyle === "cinematic" && <div className="absolute inset-0 bg-black/35 backdrop-blur-[2px] backdrop-grayscale-[0.5]"></div>}
               {bgType === "photo" && photoStyle === "light" && <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]"></div>}
               {bgType === "texture" && textureStyle === "material" && <div className="absolute inset-0 bg-white/75 backdrop-blur-[1px]"></div>}
               {bgType === "texture" && textureStyle === "minimal" && <div className="absolute inset-0 bg-white/55 backdrop-blur-[1px]"></div>}
@@ -660,9 +706,12 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
 
               {/* Watermark (visible in downloaded image) */}
               <div className={`absolute bottom-6 left-0 right-0 text-center z-10 ${watermarkColorClass}`}>
-                <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] font-medium">
-                  MONDAYMOTIVATION.ORG
-                </p>
+                <div className="inline-flex items-center justify-center gap-1.5">
+                  <img src="/logo.png" alt="MondayMotivation" className="w-3 h-3 object-contain opacity-60" />
+                  <p className="text-[8px] md:text-[9px] font-mono tracking-[0.12em] font-normal opacity-70">
+                    MONDAYMOTIVATION.ORG
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -673,7 +722,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
           <div className="mt-4 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300 w-full flex justify-center">
             <Link 
               href="/images" 
-              className="group relative inline-flex items-center justify-center gap-3 px-10 py-4 bg-gray-900 text-white rounded-full hover:bg-black hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand-primary text-white rounded-full hover:bg-brand-primary-hover hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
               {/* Shimmer effect */}
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></div>

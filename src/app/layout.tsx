@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Dancing_Script, Oswald, Space_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -64,6 +66,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION as string,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -74,14 +82,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} ${dancingScript.variable} ${oswald.variable} ${spaceMono.variable} font-sans antialiased bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${inter.variable} ${playfair.variable} ${dancingScript.variable} ${oswald.variable} ${spaceMono.variable} font-sans antialiased bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col`}
       >
         <Header />
         
         {/* Main Content */}
-        <div className="pb-24 md:pb-0">
+        <div className="flex-grow pb-24 md:pb-0">
           {children}
         </div>
+
+        <Footer />
+        
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   );

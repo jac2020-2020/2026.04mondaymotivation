@@ -1,4 +1,40 @@
-export type Category = "work" | "gym" | "funny" | "success" | "professional";
+import fetchedQuotesData from "@/data/fetched_quotes.json";
+
+export type Category = "work" | "gym" | "funny" | "success" | "professional" | "motivation";
+
+export const QUOTES_SLUG_MAPPING: Record<string, Category> = {
+  "monday-motivational-quotes-for-work": "work",
+  "powerful-monday-motivation-quotes": "gym",
+  "humor-monday-motivation-quotes": "funny",
+  "monday-morning-motivational-quotes": "success",
+  "professional-monday-motivation-quotes": "professional",
+};
+
+export const IMAGES_SLUG_MAPPING: Record<string, Category> = {
+  "monday-work-motivation-images": "work",
+  "powerful-monday-motivation-images": "gym",
+  "monday-motivation-meme": "funny",
+  "monday-morning-motivation-images": "success",
+  "professional-monday-motivation-images": "professional",
+};
+
+export const CATEGORY_TO_QUOTES_SLUG: Record<Category, string> = {
+  work: "monday-motivational-quotes-for-work",
+  gym: "powerful-monday-motivation-quotes",
+  funny: "humor-monday-motivation-quotes",
+  success: "monday-morning-motivational-quotes",
+  professional: "professional-monday-motivation-quotes",
+  motivation: "monday-motivation-quotes",
+};
+
+export const CATEGORY_TO_IMAGES_SLUG: Record<Category, string> = {
+  work: "monday-work-motivation-images",
+  gym: "powerful-monday-motivation-images",
+  funny: "monday-motivation-meme",
+  success: "monday-morning-motivation-images",
+  professional: "professional-monday-motivation-images",
+  motivation: "monday-motivation-images",
+};
 
 export interface Quote {
   id: string;
@@ -468,7 +504,16 @@ export const quotes: Quote[] = (() => {
       ...q,
       category: refineCategories(q, ""),
     })),
-    ...csvQuotes
+    ...csvQuotes,
+    ...fetchedQuotesData.map((q) => {
+      return {
+        id: q.id,
+        text: q.text,
+        author: q.author,
+        category: [q.category as Category],
+        seo_alt: q.seo_alt
+      } as Quote;
+    })
   ];
   const seen = new Set<string>();
   const result: Quote[] = [];
@@ -495,4 +540,10 @@ export function getRandomQuoteByCategory(category: Category): Quote {
 
 export function getQuotesByCategory(category: Category): Quote[] {
   return quotes.filter((q) => q.category.includes(category));
+}
+
+export function getQuoteById(id: string): Quote | null {
+  const needle = id.trim();
+  if (!needle) return null;
+  return quotes.find((q) => q.id === needle) ?? null;
 }

@@ -2,27 +2,27 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  /* Soft, natural, calming color palette */
-  --background: #fdfbf7; /* Oatmeal / Warm Off-white */
-  --foreground: #2d3748; /* Soft Slate Gray instead of harsh black */
+  /* Warm, earthy, brown-based color palette */
+  --background: #fdfbf8; /* Warm cream/off-white */
+  --foreground: #3e322b; /* Deep espresso brown instead of gray/black */
   
-  /* Brand colors: Sage Green / Earthy tones */
-  --brand-primary: #8b9d83; /* Soft Sage Green */
-  --brand-primary-hover: #7a8c73;
-  --brand-secondary: #e6e2d6; /* Warm Sand */
-  --brand-accent: #d4a373; /* Muted Terracotta for subtle pop */
+  /* Brand colors: Brown / Earthy tones */
+  --brand-primary: #8b6b55; /* Warm Mocha Brown */
+  --brand-primary-hover: #755946;
+  --brand-secondary: #e6ded7; /* Soft taupe / latte */
+  --brand-accent: #c48b6c; /* Soft Terracotta */
   
   /* UI elements */
   --surface-1: #ffffff;
-  --surface-2: #f4f1e9;
-  --border-light: #eae5d9;
+  --surface-2: #f4ede7; /* Very light warm brown for cards/backgrounds */
+  --border-light: #e8ded7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-brand: var(--brand-primary);
-  --color-brand-hover: var(--brand-primary-hover);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-accent: var(--brand-accent);
   --color-surface-1: var(--surface-1);
