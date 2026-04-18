@@ -146,6 +146,7 @@ export default async function QuotesCategoryPage({ params }: Props) {
             )}
             <Link 
               href={`/images/${CATEGORY_TO_IMAGES_SLUG[category]}?quoteId=${encodeURIComponent(q.id)}`} 
+              title="Make Poster"
               className="absolute bottom-6 right-6 md:opacity-0 group-hover:opacity-100 transition-opacity bg-brand-primary hover:bg-brand-primary-hover text-white px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider"
             >
               Make Poster

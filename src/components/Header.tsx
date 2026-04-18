@@ -24,6 +24,7 @@ export default function Header() {
             {/* Logo */}
             <Link 
               href="/" 
+              title="MondayMotivation Home"
               className="flex items-center gap-2 text-2xl font-bold tracking-tight text-foreground"
               style={{ fontFamily: '"Trebuchet MS", Helvetica, sans-serif' }}
             >
@@ -38,26 +39,27 @@ export default function Header() {
               <div className="group relative h-full flex items-center">
                 <Link 
                   href="/images" 
+                  title="Images"
                   className={`flex items-center gap-1 transition-colors ${isImagesActive ? "text-brand-primary font-bold" : "hover:text-foreground"}`}
                 >
                   Images <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
                 </Link>
                 <div className="absolute top-[80%] left-0 bg-surface-1 border border-border-light shadow-xl rounded-xl py-2 w-48 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200">
-                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.work}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Motivation</Link>
-                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.gym}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Motivation</Link>
-                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.funny}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Memes</Link>
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.work}`} title="Work Motivation Images" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Motivation</Link>
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.gym}`} title="Gym Motivation Images" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Motivation</Link>
+                  <Link href={`/images/${CATEGORY_TO_IMAGES_SLUG.funny}`} title="Funny Memes Images" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Memes</Link>
                 </div>
               </div>
 
               {/* Quotes Dropdown */}
               <div className="group relative h-full flex items-center">
-                <button className={`flex items-center gap-1 transition-colors ${isQuotesActive ? "text-brand-primary font-bold" : "hover:text-foreground"}`}>
+                <button className={`flex items-center gap-1 transition-colors ${isQuotesActive ? "text-brand-primary font-bold" : "hover:text-foreground"}`} title="Quotes">
                   Quotes <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
                 </button>
                 <div className="absolute top-[80%] left-0 bg-surface-1 border border-border-light shadow-xl rounded-xl py-2 w-48 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200">
-                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.work}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Quotes</Link>
-                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.gym}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Quotes</Link>
-                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.funny}`} className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Quotes</Link>
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.work}`} title="Work Quotes" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Work Quotes</Link>
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.gym}`} title="Gym Quotes" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Gym Quotes</Link>
+                  <Link href={`/quotes/${CATEGORY_TO_QUOTES_SLUG.funny}`} title="Funny Quotes" className="block px-5 py-3 hover:bg-surface-2 text-gray-700 hover:text-foreground transition-colors">Funny Quotes</Link>
                 </div>
               </div>
             </nav>

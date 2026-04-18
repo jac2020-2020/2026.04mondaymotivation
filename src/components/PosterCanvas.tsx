@@ -722,6 +722,7 @@ export default function PosterCanvas({ initialQuote, category = "motivation", is
           <div className="mt-4 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300 w-full flex justify-center">
             <Link 
               href="/images" 
+              title="Open Advanced Poster Editor"
               className="group relative inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand-primary text-white rounded-full hover:bg-brand-primary-hover hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
               {/* Shimmer effect */}

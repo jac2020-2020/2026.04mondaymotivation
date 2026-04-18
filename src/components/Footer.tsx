@@ -10,6 +10,7 @@ export default function Footer() {
         {/* Left: Brand */}
         <Link 
           href="/" 
+          title="MondayMotivation Home"
           className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
           style={{ fontFamily: '"Trebuchet MS", Helvetica, sans-serif' }}
         >
@@ -24,9 +25,9 @@ export default function Footer() {
           </p>
           <span className="hidden md:inline text-gray-300">|</span>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <Link href="/privacy-policy" className="hover:text-brand-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms-of-service" className="hover:text-brand-primary transition-colors">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-brand-primary transition-colors">Contact</Link>
+            <Link href="/privacy-policy" title="Privacy Policy" className="hover:text-brand-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" title="Terms of Service" className="hover:text-brand-primary transition-colors">Terms of Service</Link>
+            <Link href="/contact" title="Contact Us" className="hover:text-brand-primary transition-colors">Contact</Link>
           </div>
         </div>
 

@@ -49,11 +49,21 @@ export const metadata: Metadata = {
     siteName: "Monday Motivation",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://mondaymotivation.org/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Monday Motivation - Daily Quotes & Poster Generator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@mondaymotivation",
     title: "Monday Motivation - Daily Quotes & Poster Generator",
     description: "Energize your week with the best Monday motivational quotes and custom posters! Create, download, and share daily inspiration instantly without signup.",
+    images: ["https://mondaymotivation.org/og.png"],
   },
   robots: {
     index: true,
